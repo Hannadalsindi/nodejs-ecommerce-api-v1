@@ -6,7 +6,14 @@ const mongoose = require('mongoose');
 dotenv.config({path: 'config.env'});
 
 // Connect with db  
-
+mongoose.connect(process.env.DB_URI)
+.then((conn) => {
+    console.log('Database Connected: ${conn.connection.host}');
+})
+.catch((err)=> {
+    console.error('Database Error: ${err}');
+    process.exit(1);
+});
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
@@ -16,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 
 app.get('/', (req, res) =>{
-    res.send('Our Api v1')
+    res.send('Our Api v2')
 });
 
 const PORT = process.env.PORT || 8000;
