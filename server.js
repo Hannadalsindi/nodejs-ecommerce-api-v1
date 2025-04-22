@@ -14,16 +14,43 @@ mongoose.connect(process.env.DB_URI)
     console.error('Database Error: ${err}');
     process.exit(1);
 });
+
+
 const app = express();
 
+app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
     console.log(`mode: ${process.env.NODE_ENV}`);
 }
+// create schema
+const categorySchema = new mongoose.Schema({
+    name: String,
+});
+
+// create model
+const CategoryModel = new mongoose.model('Category', categorySchema);
+
+//create Routes
+
+app.post('/', (req, res) =>{
+    const name = req.body.name;
+    console.log(req.body);
+
+    const newCategory = new CategoryModel({ name });
+    newCategory
+        .save()
+        .then((doc) =>{
+            res.json(doc);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
+        });
 
 
 app.get('/', (req, res) =>{
-    res.send('Our Api v2')
+    res.send('Our Api 3')
 });
 
 const PORT = process.env.PORT || 8000;
