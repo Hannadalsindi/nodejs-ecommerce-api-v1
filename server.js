@@ -1,19 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
+
 
 dotenv.config({path: 'config.env'});
 
 // Connect with db  
-mongoose.connect(process.env.DB_URI)
-.then((conn) => {
-    console.log('Database Connected: ${conn.connection.host}');
-})
-.catch((err)=> {
-    console.error('Database Error: ${err}');
-    process.exit(1);
-});
+
 
 
 const app = express();
@@ -31,7 +24,7 @@ const categorySchema = new mongoose.Schema({
 // create model
 const CategoryModel = new mongoose.model('Category', categorySchema);
 
-//create Routes
+//create Routes  
 
 app.post('/', (req, res) =>{
     const name = req.body.name;
@@ -50,7 +43,7 @@ app.post('/', (req, res) =>{
 
 
 app.get('/', (req, res) =>{
-    res.send('Our Api 3')
+    res.send('Our Api 1')
 });
 
 const PORT = process.env.PORT || 8000;
