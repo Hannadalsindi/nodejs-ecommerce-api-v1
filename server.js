@@ -4,8 +4,11 @@ const morgan = require('morgan');
 
 
 dotenv.config({path: 'config.env'});
+const dbConnection = require('./config/database');
+const categoryRoute = require('./routes/categoryRoute');
 
 // Connect with db  
+dbConnection();
 
 
 
@@ -16,35 +19,14 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
     console.log(`mode: ${process.env.NODE_ENV}`);
 }
-// create schema
-const categorySchema = new mongoose.Schema({
-    name: String,
-});
-
-// create model
-const CategoryModel = new mongoose.model('Category', categorySchema);
-
-//create Routes  
-
-app.post('/', (req, res) =>{
-    const name = req.body.name;
-    console.log(req.body);
-
-    const newCategory = new CategoryModel({ name });
-    newCategory
-        .save()
-        .then((doc) =>{
-            res.json(doc);
-        })
-        .catch((err) => {
-            res.json(err);
-        });
-        });
 
 
-app.get('/', (req, res) =>{
-    res.send('Our Api 1')
-});
+//Mount Routes  
+app.use('/api/v1/categories', categoryRoute);
+
+
+
+
 
 const PORT = process.env.PORT || 8000;
 
