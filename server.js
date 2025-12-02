@@ -27,9 +27,8 @@ app.use('/api/v1/categories', categoryRoute);
 
 
 
-
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-    console.log('App running running on port ${PORT}');
+app.listen(8000, () => {
+    console.log('App running running on port 8000');
 });
